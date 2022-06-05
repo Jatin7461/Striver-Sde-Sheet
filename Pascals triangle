@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+vector<vector<long long int>> printPascal(int n) 
+{
+  // Write your code here.
+    vector<vector<long long>> vec;
+    vec.push_back({1});
+    for(int i = 1;i<n;i++){
+        vector<long long> temp(i+1);
+        for(int j = 0;j<=i;j++){
+            if(j==0 || j==i) temp[j] = 1;
+            else temp [j] = vec[i-1][j] + vec[i-1][j-1];
+        }
+        vec.push_back(temp);
+    }
+    return vec;
+}
