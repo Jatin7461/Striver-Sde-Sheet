@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+vector<int> nextPermutation(vector<int> &arr, int n)
+{
+    //  Write your code here.
+    
+    int firstIndex = -1,secondIndex = -1;
+    // find the first element which is smaller than its next element
+    
+    for(int i = n-2;i>=0;i--){
+        if(arr[i]<arr[i+1]){
+            firstIndex = i;
+            break;
+        }    
+    }
+    // if firstIndex is -1 then the array is in decreasing order
+    if(firstIndex==-1){
+        reverse(arr.begin(),arr.end());
+        return arr;
+    }
+    
+    //find the first element from  the end which is greater than the element at index firstIndex;
+    for(int i = n-1;i>=0;i--){
+        if(arr[i]>arr[firstIndex]){
+            secondIndex = i;
+           break;
+        }
+       
+    }
+    
+    swap(arr[firstIndex],arr[secondIndex]);
+    reverse(arr.begin() + firstIndex + 1,arr.end());
+    return arr;
+}
