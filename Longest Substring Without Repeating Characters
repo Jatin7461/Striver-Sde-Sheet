@@ -1,0 +1,24 @@
+#include <bits/stdc++.h> 
+int uniqueSubstrings(string input)
+{
+    //Write your code here
+    map<int,int> m;
+    int i = 0,j = 0,ans=0;
+    int n = input.length();
+    while(i<n && j<n){
+        m[input[j]]++;
+        int size = m.size();
+        if(j-i+1==size){
+            ans = max(ans,size);
+        }
+        else{
+            while(i<j && j-i+1!=m.size()){
+                m[input[i]]--;
+                if(m[input[i]]==0) m.erase(input[i]);
+                i++;
+            }
+        }
+        j++;
+    }
+    return ans;
+}
