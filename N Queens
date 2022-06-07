@@ -1,0 +1,51 @@
+
+void insert(vector<vector<int>> &ans,vector<vector<int>> &vec){
+    vector<int> temp;
+    for(auto c:vec){
+        for(auto d:c) temp.push_back(d);
+    }    
+   
+    ans.push_back(temp);
+}
+
+bool check(vector<vector<int>> &vec,int row,int col){
+    for(int i = row-1;i>=0;i--){
+        if(vec[i][col]) return false;
+        
+    }
+    
+    for(int i = row-1,j = col-1;i>=0 && j>=0 ; i--,j--){
+        if(vec[i][j]) return false;
+    }
+    
+    for(int i = row-1,j = col+1;i>=0 && j<vec[0].size();i--,j++){
+        if(vec[i][j]) return false;
+    }
+    return true;
+    
+}
+
+void solve(vector<vector<int>> &vec,int i,vector<vector<int>> &ans){
+    if(i>=vec.size()){
+        insert(ans,vec);
+        return;
+    }
+    
+    for(int j = 0;j<vec[0].size();j++){
+        if(check(vec,i,j)){
+            vec[i][j] = 1;
+            solve(vec,i+1,ans);
+            vec[i][j] = 0;
+        }
+    }
+}
+
+
+vector<vector<int>> solveNQueens(int n) {
+    // Write your code here.
+       vector<vector<int>> vec(n,vector<int>(n,0)),ans;
+        solve(vec,0,ans);
+       
+    return ans;
+    
+}
