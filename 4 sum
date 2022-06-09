@@ -1,0 +1,23 @@
+#include <bits/stdc++.h> 
+string fourSum(vector<int> arr, int target, int n) {
+    // Write your code here.
+    
+    unordered_map<long long,pair<int,int>> m;
+    for(int i =0;i<n;i++){
+        for(int j = i+1;j<n;j++){
+            m[(long long)arr[i]+arr[j]] = {i,j};
+        }
+    }
+    
+    for(int i =0;i<n-1;i++){
+        for(int j = i + 1;j<n;j++){
+            long long sum = arr[i] + arr[j];
+            long long newTarget = target - sum;
+            if(m.find(newTarget)!=m.end()){
+                auto temp = m[newTarget];
+                if(temp.first!=i && temp.second!=i && temp.first!=j && temp.second!=j) return "Yes";
+            }
+        }
+    }
+    return "No";
+}
