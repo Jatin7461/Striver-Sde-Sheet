@@ -1,0 +1,83 @@
+import java.util.ArrayList;
+import java.util.*;
+
+public class Solution {
+    //method to calculate previous smaller element for every element
+    static ArrayList<Integer> previousSmaller(ArrayList<Integer> list){
+        int n = list.size();
+        ArrayList<Integer> previousSmallerIndex = new ArrayList<>();
+        Stack<Integer> st = new Stack<>();
+        
+        for(int i = 0;i<n;i++){
+            if(st.empty()){
+                previousSmallerIndex.add(-1);
+            }
+            else{
+                while(!st.empty() && list.get(st.peek())>=list.get(i)) st.pop();
+                if(st.empty()) previousSmallerIndex.add(-1);
+                else previousSmallerIndex.add(st.peek());
+            }
+            st.push(i);
+        }
+        
+        return previousSmallerIndex;
+        
+        
+    }
+    
+    static void reverseList(ArrayList<Integer> list){
+        int n = list.size();
+        int i = 0,j = n-1;
+        while(i<j){
+            int temp = list.get(i);
+            list.set(i,list.get(j));
+            list.set(j,temp);
+            i++;
+            j--;
+        }
+    }
+    
+    static ArrayList<Integer> nextSmaller(ArrayList<Integer> list){
+        
+        int n = list.size();
+        
+        Stack<Integer> st = new Stack<>();
+        
+        ArrayList<Integer> nextSmallerElement = new ArrayList<>(n);
+        
+        for(int i = n-1;i>=0;i--){
+            int nextSmallerIndex;
+            if(st.empty()){
+                nextSmallerIndex = -1;
+            }
+            else{
+                while(!st.empty() && list.get(st.peek()) >= list.get(i)) st.pop();
+                if(st.empty()) nextSmallerIndex = -1;
+                else nextSmallerIndex = st.peek();
+            }
+            nextSmallerElement.add(nextSmallerIndex);
+            st.push(i);   
+        }
+        reverseList(nextSmallerElement);
+        return nextSmallerElement;
+    }
+    
+  public static int largestRectangle(ArrayList < Integer > heights) {
+    // Write your code here.
+      ArrayList<Integer> nextSmallerElement = new ArrayList<>();
+      nextSmallerElement = nextSmaller(heights);
+      ArrayList<Integer> previousSmallerElement = previousSmaller(heights);
+      
+      int ans = 0,n = heights.size();
+      for(int i =0;i<n;i++){
+          int nextSmallIndex = nextSmallerElement.get(i);
+          int previousSmallIndex = previousSmallerElement.get(i);
+          if(nextSmallIndex==-1) nextSmallIndex = n;
+          int currArea = (nextSmallIndex - previousSmallIndex - 1)*heights.get(i);
+          
+          ans = Math.max(ans,currArea);
+      }
+      
+      return ans;
+  }
+}
